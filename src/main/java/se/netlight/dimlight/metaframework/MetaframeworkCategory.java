@@ -3,7 +3,7 @@ package se.netlight.dimlight.metaframework;
 import java.util.List;
 import java.util.Map;
 
-public class MetaframeworkCategory {
+public class MetaframeworkCategory<T> {
 	private String name;
 	private List<MetaframeworkCategoryImplementation> implementations;
 	private Map<String, MetaframeworkCategoryImplementation> implementationsMap;
@@ -29,12 +29,13 @@ public class MetaframeworkCategory {
 			throw new IllegalArgumentException("No default implementation provided");
 	}
 
-	public <T> T getImplementation(String choice) {
+	@SuppressWarnings("unchecked")
+	public T getImplementation(String choice) {
 		MetaframeworkCategoryImplementation mci = implementationsMap.get(choice);
 		if (mci == null)
 			mci = defaultImplementation;
 		
-		return mci.getImplementation();
+		return (T) mci.getImplementation();
 	}
 
 	public MetaframeworkCategoryImplementation getDefaultImplementation() {

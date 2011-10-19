@@ -42,8 +42,9 @@ public class MetaframeworkManager {
 		return categories;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public <T> T getSelectedImplementation(String category, String choice) {
-		MetaframeworkCategory c = categoriesMap.get(category);
+		MetaframeworkCategory<T> c = categoriesMap.get(category);
 		if (c == null)
 			throw new IllegalArgumentException("Unknown category " + category);
 		

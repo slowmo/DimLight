@@ -5,9 +5,8 @@ public class MetaframeworkCategoryImplementation {
 	private String name;
 	private boolean defaultImplementation;
 	
-	@SuppressWarnings("unchecked")
-	public <T> T getImplementation() {
-		return (T) implementation;
+	public Object getImplementation() {
+		return implementation;
 	}
 
 	public void setImplementation(Object implementation) {
