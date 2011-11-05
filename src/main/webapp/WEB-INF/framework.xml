@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+            http://www.springframework.org/schema/context 
+        	http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+	<!-- DAO configuration -->
+
+	<bean id="datasource" destroy-method="close"
+		class="se.netlight.dimlight.utils.jdbc.AutoInstantiatingDatabaseSource">
+		<property name="driverClassName" value="org.hsqldb.jdbcDriver" />
+		<property name="url" value="jdbc:hsqldb:mem:testdb" />
+		<property name="preparationFile" value="testdb.script" />
+	</bean>
+	
+	<bean id="stupidDAO" class="se.netlight.dimlight.dao.StupidDimlightDAO">
+		<property name="datasource" ref="datasource" />	
+	</bean>
+	
+	<bean id="stupidDatabaseImplementation" class="se.netlight.dimlight.dao.category.StupidDatabaseImplementation">
+		<property name="name" value="stupid" />
+		<property name="display" value="Easy" />
+		<property name="description" value="An implementation where basically everything is open for attack. Uses JDBC without prepared statements, no sanitation, full error display." />
+	
+		<property name="dao" ref="stupidDAO"/>
+	</bean>
+	
+	<bean id="daoCategory" class="se.netlight.dimlight.metaframework.MetaframeworkCategory">
+		<property name="name" value="database"/>
+		<property name="display" value="Database Layer" />
+		<property name="description" value="How the database is integrated, i.e., which mechanism is used to build the SQL queries, sanitize the user input etc." />
+		<property name="implementations">
+			<list>
+				<ref bean="stupidDatabaseImplementation"/>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- Meta framework manager configuration -->
+	
+	<bean id="metaframeworkManager" class="se.netlight.dimlight.metaframework.MetaframeworkManager">
+		<property name="categories">
+			<list>
+				<ref bean="daoCategory"/>
+			</list>
+		</property>
+	</bean>
+	
+	
+</beans>

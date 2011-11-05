@@ -4,7 +4,9 @@ import org.mortbay.jetty.bio.SocketConnector;
 import org.mortbay.jetty.webapp.WebAppContext;
 import org.mortbay.thread.BoundedThreadPool;
 
+@SuppressWarnings("deprecation")
 public class Start {
+	
 	public static void main(String[] args) throws Exception {
 		Server server = new Server();
 		

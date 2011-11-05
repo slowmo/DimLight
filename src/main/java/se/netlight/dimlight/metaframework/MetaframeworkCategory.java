@@ -1,28 +1,20 @@
 package se.netlight.dimlight.metaframework;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MetaframeworkCategory<T> {
-	private String name;
-	private List<MetaframeworkCategoryImplementation> implementations;
-	private Map<String, MetaframeworkCategoryImplementation> implementationsMap;
-	private MetaframeworkCategoryImplementation defaultImplementation;
-	
-	public String getName() {
-		return name;
-	}
-	
-	public void setName(String name) {
-		this.name = name;
-	}
-
+public class MetaframeworkCategory<T extends AbstractMetaframeworkCategoryImplementation>  extends AbstractDisplayableEntity {
+	private List<AbstractMetaframeworkCategoryImplementation> implementations;
+	private Map<String, AbstractMetaframeworkCategoryImplementation> implementationsMap;
+	private AbstractMetaframeworkCategoryImplementation defaultImplementation;
 		
-	public void setImplementations(List<MetaframeworkCategoryImplementation> implementations) {
+	public void setImplementations(List<AbstractMetaframeworkCategoryImplementation> implementations) {
 		this.implementations = implementations;
-		for (MetaframeworkCategoryImplementation mci : implementations) {
+		implementationsMap = new HashMap<String, AbstractMetaframeworkCategoryImplementation>(implementations.size());
+		for (AbstractMetaframeworkCategoryImplementation mci : implementations) {
 			implementationsMap.put(mci.getName(), mci);
-			if (mci.isDefaultImplementation())
+			if (defaultImplementation == null)
 				defaultImplementation = mci;
 		}
 		if (defaultImplementation == null)
@@ -31,18 +23,20 @@ public class MetaframeworkCategory<T> {
 
 	@SuppressWarnings("unchecked")
 	public T getImplementation(String choice) {
-		MetaframeworkCategoryImplementation mci = implementationsMap.get(choice);
+		AbstractMetaframeworkCategoryImplementation mci = implementationsMap.get(choice);
 		if (mci == null)
 			mci = defaultImplementation;
 		
-		return (T) mci.getImplementation();
+		return (T) mci;
 	}
 
-	public MetaframeworkCategoryImplementation getDefaultImplementation() {
-		return defaultImplementation;
+	@SuppressWarnings("unchecked")
+	public T getDefaultImplementation() {
+		return (T) defaultImplementation;
 	}
 	
-	public List<MetaframeworkCategoryImplementation> getImplementations() {
-		return implementations;
+	@SuppressWarnings("unchecked")
+	public List<T> getImplementations() {
+		return (List<T>) implementations;
 	}
 }

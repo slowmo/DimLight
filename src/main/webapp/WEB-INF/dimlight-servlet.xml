@@ -9,12 +9,7 @@
 
 	<context:component-scan base-package="se.netlight.dimlight.metaframework.mvc"/>
 
-	<bean id="dataSource" destroy-method="close"
-		class="se.netlight.dimlight.utils.jdbc.AutoInstantiatingDatabaseSource">
-		<property name="driverClassName" value="org.hsqldb.jdbcDriver" />
-		<property name="url" value="jdbc:hsqldb:mem:testdb" />
-		<property name="preparationFile" value="testdb.script" />
-	</bean>
+	<import resource="framework.xml" />
 
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">

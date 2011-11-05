@@ -15,6 +15,7 @@ import java.util.Map;
  */
 public class MetaframeworkManager {
 	private static MetaframeworkManager instance;
+	private ICategoryConfigurationStorage categoryConfigurationStorage;
 
 	public static MetaframeworkManager getInstance() {
 		if (instance == null)
@@ -22,8 +23,8 @@ public class MetaframeworkManager {
 		return instance;
 	}
 
-	private Map<String, MetaframeworkCategory> categoriesMap;
-	private List<MetaframeworkCategory> categories;
+	private Map<String, MetaframeworkCategory<?>> categoriesMap;
+	private List<MetaframeworkCategory<?>> categories;
 	
 	public MetaframeworkManager() {
 		if (instance != null)
@@ -31,23 +32,33 @@ public class MetaframeworkManager {
 		instance = this;
 	}
 	
-	public void setCategories(List<MetaframeworkCategory> categories) {
-		this.categoriesMap = new HashMap<String, MetaframeworkCategory>(categories.size());
+	public void setCategories(List<MetaframeworkCategory<?>> categories) {
+		this.categoriesMap = new HashMap<String, MetaframeworkCategory<?>>(categories.size());
 		this.categories = categories;
-		for (MetaframeworkCategory mc : categories)
+		for (MetaframeworkCategory<?> mc : categories)
 			this.categoriesMap.put(mc.getName(), mc);
 	}
 	
-	public List<MetaframeworkCategory> getCategories() {
+	public List<MetaframeworkCategory<?>> getCategories() {
 		return categories;
 	}
 	
+	public void setCategoryConfigurationStorage(
+			ICategoryConfigurationStorage categoryConfigurationStorage) {
+		this.categoryConfigurationStorage = categoryConfigurationStorage;
+	}
+
 	@SuppressWarnings("unchecked")
-	public <T> T getSelectedImplementation(String category, String choice) {
-		MetaframeworkCategory<T> c = categoriesMap.get(category);
+	public <T extends AbstractMetaframeworkCategoryImplementation> T getSelectedImplementation(String category, String choice) {
+		MetaframeworkCategory<T> c = (MetaframeworkCategory<T>) categoriesMap.get(category);
 		if (c == null)
 			throw new IllegalArgumentException("Unknown category " + category);
 		
 		return c.getImplementation(choice);
+	}
+	
+	public <T extends AbstractMetaframeworkCategoryImplementation> T getConfiguredImplementation(String category) {
+		String choice = categoryConfigurationStorage.getCategoryChoice(category);
+		return getSelectedImplementation(category, choice);
 	}
 }
