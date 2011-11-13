@@ -37,6 +37,7 @@ public class AutoInstantiatingDatabaseSource extends BasicDataSource {
 			return;
 		Statement statement = ret.createStatement();
 		try {
+			System.out.println("Database not yet initialised, populating from " + preparationFile);
 			InputStream inputStream = getClass().getClassLoader().getResourceAsStream(preparationFile);
 			if (inputStream == null)
 				throw new FileNotFoundException("File not found");

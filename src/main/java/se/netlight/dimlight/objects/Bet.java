@@ -3,6 +3,15 @@ package se.netlight.dimlight.objects;
 import java.util.Date;
 
 public class Bet {
+	public Bet(Date created, boolean positive, double amount) {
+		this.created = created;
+		this.positive = positive;
+		this.amount = amount;
+	}
+
+	public Bet() {
+	}
+	
 	public Statement getStatement() {
 		return statement;
 	}

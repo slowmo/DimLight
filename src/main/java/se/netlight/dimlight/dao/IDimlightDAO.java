@@ -24,7 +24,7 @@ public interface IDimlightDAO {
 	public void saveBet(Bet bet) throws DAOException;
 	public void removeBet(Bet bet) throws DAOException;
 	public List<Bet> getBetsForStatement(Statement s) throws DAOException;
-	public Bet getBetsForStatementAndUser(Statement s, User user) throws DAOException;
+	public Bet getBetForStatementAndUser(Statement s, User user) throws DAOException;
 	
 	public Message getMessageForId(int id) throws DAOException;
 	public void saveMessage(Message message) throws DAOException;

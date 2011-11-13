@@ -7,6 +7,16 @@ public class Message {
 	private String content;
 	private Date created;
 	private Date read;
+	private User user;
+
+	public Message() {
+	}
+	
+	public Message(String content, Date created, Date read) {
+		this.content = content;
+		this.created = created;
+		this.read = read;
+	}
 
 	public int getId() {
 		return id;
@@ -38,5 +48,13 @@ public class Message {
 
 	public void setRead(Date read) {
 		this.read = read;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public User getUser() {
+		return user;
 	}
 }

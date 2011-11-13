@@ -66,4 +66,22 @@ public class Statement {
 	private Date created;
 	private Date resolved;
 	private boolean positiveOutcome;
+	
+	public Statement() {
+	}
+	
+	public Statement(String name, String description, Date created,
+			Date resolved, boolean positiveOutcome) {
+		this.name = name;
+		this.description = description;
+		this.created = created;
+		this.resolved = resolved;
+		this.positiveOutcome = positiveOutcome;
+	}
+
+	public Statement(String name, String description, User u) {
+		this.name = name;
+		this.description = description;
+		this.creator = u;
+	}
 }

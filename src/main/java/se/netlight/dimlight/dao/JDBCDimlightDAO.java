@@ -9,5 +9,8 @@ public abstract class JDBCDimlightDAO implements IDimlightDAO {
 	
 	public void setDatasource(DataSource source)  {
 		template = new JdbcTemplate(source);
+		prepare(source);
 	}
+
+	protected abstract void prepare(DataSource source);
 }
