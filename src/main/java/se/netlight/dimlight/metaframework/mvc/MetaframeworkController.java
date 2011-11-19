@@ -11,9 +11,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import se.netlight.dimlight.controller.AbstractDimlightController;
+
 @Controller
 @RequestMapping("/meta")
-public class MetaframeworkController {
+public class MetaframeworkController extends AbstractDimlightController {
 	public MetaframeworkController() {
 	}
 	

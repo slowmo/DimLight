@@ -1,0 +1,187 @@
+body {
+	background: #999999 url('https://login.netlight.se/adfs/ls/App_Themes/Default/gradient_body.jpg') top repeat-x;
+    color: #383838;
+    font-family: Verdana, Arial, sans-serif;
+    font-size: 13px;
+    font-weight: normal;
+    padding: 15px;
+}
+
+.MainArea {
+    display: block;
+    width: 600px;
+    background: #fff url('https://login.netlight.se/adfs/ls/App_Themes/Default/netlight_logo.jpg') no-repeat -30px 0px;
+    margin: 0 auto;
+    padding: 80px 25px 40px 25px;
+    border: 2px solid #333;
+}
+
+.TextColorError {
+    color: #EE2037;
+}
+
+.TextColorSecondary {
+    color: #AAAAAA;
+}
+
+.TextSizeXLarge {
+    font-size: 146%;
+}
+
+.TextSizeLarge {
+    font-size: 125%;
+}
+
+.TextSizeSmall {
+    font-size: 92%;
+}
+
+.TextWeightBold {
+    font-weight: bold;
+}
+
+.GroupXXLargeMargin {
+    margin: 8px 0 20px;
+}
+
+.GroupXLargeMargin {
+    margin: 8px 0 12px;
+}
+
+.GroupLargeMargin {
+    margin: 5px 0 8px;
+}
+
+.GroupNormalMargin {
+    margin: 0 0 5px;
+}
+
+.MainActionContainer {
+    border: 1px solid #CCCCCC;
+    min-height: 150px;
+    padding: 5px 20px;
+}
+
+div.Divider {
+    -moz-border-bottom-colors: none;
+    -moz-border-image: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    border-color: #CCCCCC -moz-use-text-color -moz-use-text-color;
+    border-right: 0 none;
+    border-style: solid none none;
+    border-width: 1px 0 0;
+    height: 0;
+    margin: 13px auto 0;
+    width: 100%;
+}
+
+input[type="text"], input[type="password"] {
+    border: 1px solid #707070;
+    padding-left: 5px;
+    padding-right: 5px;
+    width: 200px;
+}
+
+input[type="submit"] {
+    background-color: #F7F3F7;
+    border: 1px solid #707070;
+    font-size: 100%;
+    height: 1.6em;
+    margin: 5px 0;
+    padding: 0 8px;
+    width: 70px;
+}
+
+select {
+    font-size: 100%;
+    height: 1.7em;
+    margin: 5px 0;
+    max-width: 500px;
+    min-width: 200px;
+}
+
+.UsernamePasswordTable {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.UsernamePasswordTable td {
+    padding: 3px;
+}
+
+.RightAlign {
+    text-align: right;
+}
+
+.UsernamePasswordTable .Label {
+    margin-left: 5px;
+    margin-right: 5px;
+    text-align: left;
+}
+
+.NotRendered {
+    display: none;
+}
+
+.NotShown {
+    height: 1px;
+    visibility: hidden;
+    width: 1px;
+}
+
+.Spinner {
+    display: block;
+    margin: 40px auto;
+    text-align: center;
+}
+
+.RadioButtonGroup .Radio {
+    margin: 4px 0 4px -3px;
+    vertical-align: bottom;
+}
+
+.Radio .CtrlTextRight {
+    padding-left: 4px;
+}
+
+input.Resizable[type="submit"] {
+    width: auto;
+}
+
+.Indent1 {
+    padding-left: 5px;
+}
+
+.Indent2 {
+    padding-left: 27px;
+}
+
+ul.claims div.caption {
+	font-size: 12pt;
+}
+
+ul.claims div.description {
+	font-size: 10pt;
+}
+
+ul.claims div.data {
+	font-size: 10pt;
+	font-style: italic;
+}
+
+.error {
+	color: #AA0000;
+	font-weight: bold;
+}
+
+.loginframe {
+    border: 1px solid #888888;
+    padding: 8px;	
+}
+
+.hint {
+	font-size: 10px;
+	font-style: italic;
+}

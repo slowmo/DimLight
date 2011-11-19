@@ -49,5 +49,7 @@
 		</property>
 	</bean>
 	
+	<bean id="sessionManager" class="se.netlight.dimlight.metaframework.session.DimlightSessionManager">	
+	</bean>	
 	
 </beans>

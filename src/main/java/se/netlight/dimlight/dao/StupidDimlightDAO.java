@@ -8,6 +8,7 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import org.springframework.asm.Type;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.object.SqlUpdate;
 
@@ -87,12 +88,20 @@ public class StupidDimlightDAO extends JDBCDimlightDAO {
 	private StatementUpdate statementUpdater;
 		
 	public User getUserForId(int id) throws DAOException {
-		User ret = template.queryForObject("SELECT * FROM User WHERE id = " + id, userRowMapper);
-		return ret;
+		try {
+			return template.queryForObject("SELECT * FROM User WHERE id = " + id, userRowMapper);			
+		} catch (EmptyResultDataAccessException e) {
+			return null;
+		}
+		
 	}
 
 	public User getUserForName(String name) throws DAOException {
-		return template.queryForObject("SELECT * FROM User WHERE name='" + name + "'", userRowMapper);
+		try {
+			return template.queryForObject("SELECT * FROM User WHERE name='" + name + "'", userRowMapper);			
+		} catch (EmptyResultDataAccessException e) {
+			return null;
+		}
 	}
 	
 	public List<User> getAllUsers() throws DAOException {
@@ -111,11 +120,11 @@ public class StupidDimlightDAO extends JDBCDimlightDAO {
 			User u2 = getUserForName(user.getName());
 			user.setId(u2.getId());
 		} else {
-			template.execute("UPDATE User SET '"
+			template.execute("UPDATE User SET "
 					+ "name='"+ user.getName() + "',"
 					+ "email='" +user.getEMail() + "',"
 					+ "password='" + user.getPassword() + "',"
-					+ "balance=" + user.getBalance() + ",'"
+					+ "balance=" + user.getBalance() + ","
 					+ "secret='" + user.getSecret() + "' "
 					+ "WHERE id=" + user.getId()
 				);
@@ -163,6 +172,11 @@ public class StupidDimlightDAO extends JDBCDimlightDAO {
 		return template.query("SELECT * FROM Statement", statementRowMapper);
 	}
 
+	public List<Statement> getLastStatements(int count) {
+		return template.query("SELECT * FROM Statement WHERE resolved is NULL ORDER BY created DESC LIMIT " + count, statementRowMapper);
+	}
+
+	
 	public Bet getBetForId(int id) throws DAOException {
 		return template.queryForObject("SELECT * FROM Bet WHERE id=" + id, betRowMapper);
 	}

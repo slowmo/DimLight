@@ -19,7 +19,8 @@ public interface IDimlightDAO {
 	public List<Statement> getStatementsForUser(User user) throws DAOException;
 	public List<Statement> getOpenStatements();
 	public List<Statement> getAllStatements();
-	
+	public List<Statement> getLastStatements(int i);
+		
 	public Bet getBetForId(int id) throws DAOException;
 	public void saveBet(Bet bet) throws DAOException;
 	public void removeBet(Bet bet) throws DAOException;

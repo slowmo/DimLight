@@ -10,10 +10,14 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import org.apache.commons.dbcp.BasicDataSource;
+import org.apache.log4j.Logger;
 
 public class AutoInstantiatingDatabaseSource extends BasicDataSource {
 	private boolean initialized;
 	private String preparationFile;
+	
+	private Logger logger = Logger.getLogger(AutoInstantiatingDatabaseSource.class); 
+
 	@Override
 	public Connection getConnection() throws SQLException {
 		Connection ret = super.getConnection();
@@ -37,7 +41,7 @@ public class AutoInstantiatingDatabaseSource extends BasicDataSource {
 			return;
 		Statement statement = ret.createStatement();
 		try {
-			System.out.println("Database not yet initialised, populating from " + preparationFile);
+			logger.info("Database not yet initialised, populating from " + preparationFile);
 			InputStream inputStream = getClass().getClassLoader().getResourceAsStream(preparationFile);
 			if (inputStream == null)
 				throw new FileNotFoundException("File not found");
@@ -52,7 +56,7 @@ public class AutoInstantiatingDatabaseSource extends BasicDataSource {
 				}
 				++lineNumber;
 			}
-			System.out.println("Sucessfully inserted " + lineNumber + " lines");
+			logger.info("Sucessfully inserted " + lineNumber + " lines");
 			sqlReader.close();
 		} catch (IOException e) {
 			throw new RuntimeException("Failed to load file " + preparationFile + " from the classpath", e);
