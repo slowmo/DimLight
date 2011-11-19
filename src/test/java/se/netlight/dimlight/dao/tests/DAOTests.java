@@ -13,6 +13,7 @@ import org.junit.Test;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import se.netlight.dimlight.dao.DAOException;
+import se.netlight.dimlight.dao.ProvidedInteger;
 import se.netlight.dimlight.dao.StupidDimlightDAO;
 import se.netlight.dimlight.objects.Statement;
 import se.netlight.dimlight.objects.User;
@@ -41,7 +42,7 @@ public class DAOTests {
 
 	@Test
 	public void testUserLoading() throws DAOException {
-		User u = dao.getUserForId(1);
+		User u = dao.getUserForId(ProvidedInteger.wrap(1));
 		assertEquals(u.getName(), "Mo");
 		assertTrue(u.isAdmin());
 		
@@ -54,7 +55,7 @@ public class DAOTests {
 	}
 	
 	public void testUserStoring() throws DAOException {
-		User u = new User("Testuser", "password", "secret", 100.0, "testemail");
+		User u = new User("Testuser", "password", "secret", 100, "testemail");
 		dao.saveUser(u);	
 		assertTrue(u.getId() > 0);
 		
@@ -66,7 +67,7 @@ public class DAOTests {
 		u2.setEMail("testemail2");
 		dao.saveUser(u);
 		
-		User u3 = dao.getUserForId(u.getId());
+		User u3 = dao.getUserForId(ProvidedInteger.wrap(u.getId()));
 		assertEquals(u2, u3);
 		assertEquals(u3.getEMail(), "testemail2");
 		
@@ -80,27 +81,29 @@ public class DAOTests {
 	
 	@Test
 	public void testStatements() throws DAOException {
-		Statement s = dao.getStatementForId(1);
+		
+		ProvidedInteger ONE = ProvidedInteger.wrap(1);
+		Statement s = dao.getStatementForId(ONE );
 		assertTrue(s != null);
 		
-		Statement s2 = dao.getStatementsForUser(dao.getUserForId(1)).get(0);
+		Statement s2 = dao.getStatementsForUser(dao.getUserForId(ONE)).get(0);
 		assertTrue(s2 != null);
 		
 		assertEquals(s.getName(), s2.getName());
 		
-		User u = dao.getUserForId(1);
+		User u = dao.getUserForId(ONE);
 		Statement s3 = new Statement("another test", "another testdescription", u);
 		dao.saveStatement(s3);
 		assertTrue(s3.getId() > 0);
 		
-		Statement s4 = dao.getStatementForId(s3.getId());
+		Statement s4 = dao.getStatementForId(ProvidedInteger.wrap(s3.getId()));
 		assertNull(s4.getResolved());
 		Date now = new Date();
 		s4.setResolved(now);
 		s4.setPositiveOutcome(true);
 		dao.saveStatement(s4);
 		
-		Statement s5 = dao.getStatementForId(s3.getId());
+		Statement s5 = dao.getStatementForId(ProvidedInteger.wrap(s3.getId()));
 		assertTrue(Math.abs(now.getTime() - s5.getResolved().getTime()) < 2000);
 		assertTrue(s5.isPositiveOutcome());
 	}

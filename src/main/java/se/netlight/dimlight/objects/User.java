@@ -5,14 +5,14 @@ public class User {
 	private String name;
 	private String password;
 	private String secret;
-	private double balance;
+	private int balance;
 	private boolean admin;
 	private String eMail;
 
 	public User() {
 	}
 	
-	public User(String name, String password, String secret, double balance, String eMail) {
+	public User(String name, String password, String secret, int balance, String eMail) {
 		this.id = -1;
 		this.name = name;
 		this.password = password;
@@ -53,11 +53,11 @@ public class User {
 		this.secret = secret;
 	}
 
-	public double getBalance() {
+	public int getBalance() {
 		return balance;
 	}
 
-	public void setBalance(double balance) {
+	public void setBalance(int balance) {
 		this.balance = balance;
 	}
 

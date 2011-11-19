@@ -11,6 +11,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import se.netlight.dimlight.dao.DAOException;
 import se.netlight.dimlight.dao.IDimlightDAO;
+import se.netlight.dimlight.dao.ProvidedInteger;
+import se.netlight.dimlight.dao.category.AbstractDatabaseCategoryImplementation;
+import se.netlight.dimlight.metaframework.MetaframeworkManager;
+import se.netlight.dimlight.metaframework.session.DimlightSessionManager;
 import se.netlight.dimlight.model.IndexViewBean;
 import se.netlight.dimlight.objects.Statement;
 import se.netlight.dimlight.objects.User;
@@ -21,7 +25,7 @@ public class DimlightMainController extends AbstractDimlightController {
 	@RequestMapping("/index.do")
 	public ModelAndView index(HttpSession session) {
 		IDimlightDAO dao = getDao();
-		List<Statement> lastStatements = dao.getLastStatements(3);
+		List<Statement> lastStatements = dao.getLastStatements(ProvidedInteger.wrap(3));
 		
 		return new ModelAndView("index", "data", new IndexViewBean(lastStatements, (User) session.getAttribute("user")));
 	}
@@ -29,7 +33,7 @@ public class DimlightMainController extends AbstractDimlightController {
 	@RequestMapping("/login.do")
 	public ModelAndView login(@RequestParam("name") String username, @RequestParam("password") String password, HttpSession session) {
 		IDimlightDAO dao = getDao();
-		List<Statement> lastStatements = dao.getLastStatements(3);		
+		List<Statement> lastStatements = dao.getLastStatements(ProvidedInteger.wrap(3));		
 		IndexViewBean bean = new IndexViewBean(lastStatements, null);
 		try {
 			User user = dao.getUserForName(username);
@@ -58,46 +62,54 @@ public class DimlightMainController extends AbstractDimlightController {
 	
 	@RequestMapping("/profile.do")
 	public ModelAndView profile(HttpSession session) {
-		User u = (User) session.getAttribute("user");
-		if (u == null)
-			throw new RuntimeException("Need to be logged in for this page");
-		
+		User u = loadUser(session);
 		return new ModelAndView("profile", "user", u);
 	}
 	
-	@RequestMapping("/charge.do")
-	public ModelAndView charge(@RequestParam("amount") String amount, HttpSession session) {
+	private User loadUser(HttpSession session) {
 		User u = (User) session.getAttribute("user");
 		if (u == null)
 			throw new RuntimeException("Need to be logged in for this page");
+
+		// reload, to see any freshly hacked data :-)
+		try {
+			u = getDao().getUserForId(ProvidedInteger.wrap(u.getId()));
+		} catch (DAOException e) {
+			throw new RuntimeException("Failed to load user", e);
+		}
 		
-		double balance = u.getBalance();
-		balance += Integer.parseInt(amount);
-		u.setBalance(balance);
+		return u;
+	}
+
+	@RequestMapping("/charge.do")
+	public ModelAndView charge(@RequestParam("amount") String amount, HttpSession session) {
+		User u = loadUser(session);
+				
+		AbstractDatabaseCategoryImplementation daoImpl = MetaframeworkManager.getInstance().getSelectedImplementation("database", DimlightSessionManager.getCurrentSession().getContext("database"));
+		ProvidedInteger balance = daoImpl.buildProvidedInteger(amount);
+		
+		int oldBalance = u.getBalance();
+		
+		balance = balance.add(oldBalance);
 		try {			
-			getDao().saveUser(u);
+			getDao().changeUserBalance(u, balance);
 		} catch (DAOException e) {
 			throw new RuntimeException("Failed to save user: ", e);
 		}
 		
-		return new ModelAndView("profile", "user", u);
+		return new ModelAndView("profile", "user", loadUser(session));
 	}
 	
 	@RequestMapping("/changesecret.do")
 	public ModelAndView changeSecret(@RequestParam("secret") String secret, HttpSession session) {
-		User u = (User) session.getAttribute("user");
-		if (u == null)
-			throw new RuntimeException("Need to be logged in for this page");
-		
-		u.setSecret(secret);
+		User u = loadUser(session);
+				
 		try {			
-			getDao().saveUser(u);
+			getDao().changeUserSecret(u, secret);
 		} catch (DAOException e) {
 			throw new RuntimeException("Failed to save user: ", e);
 		}
 		
-		return new ModelAndView("profile", "user", u);
+		return new ModelAndView("profile", "user", loadUser(session));
 	}
-	
-	
 }

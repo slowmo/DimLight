@@ -23,9 +23,11 @@ public class DimlightSessionInterceptor implements HandlerInterceptor {
 			Object arg2) throws Exception {
 		Cookie[] cookies = arg0.getCookies();
 		String token = null;
-		for (Cookie c : cookies) {
-			if (c.getName().equals(COOKIE_NAME))
-				token = c.getValue();
+		if (cookies != null) {
+			for (Cookie c : cookies) {
+				if (c.getName().equals(COOKIE_NAME))
+					token = c.getValue();
+			}
 		}
 		if (token != null) {
 			DimlightSessionManager.getInstance().announceSession(token);

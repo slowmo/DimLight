@@ -26,7 +26,7 @@ public class StupidDimlightDAO extends JDBCDimlightDAO {
 			u.setEMail(rs.getString(3));
 			u.setAdmin(rs.getBoolean(4));
 			u.setPassword(rs.getString(5));
-			u.setBalance(rs.getDouble(6));
+			u.setBalance(rs.getInt(6));
 			u.setSecret(rs.getString(7));
 			return u;
 		}};
@@ -36,7 +36,7 @@ public class StupidDimlightDAO extends JDBCDimlightDAO {
 			Statement s = new Statement(rs.getString(2), rs.getString(3), rs.getTimestamp(5), rs.getTimestamp(6), rs.getBoolean(7));
 			s.setId(rs.getInt(1));
 			try {
-				s.setCreator(getUserForId(rs.getInt(4)));
+				s.setCreator(getUserForId(ProvidedInteger.wrap(rs.getInt(4))));
 			} catch (DAOException e) {
 				throw new SQLException("Subquery failed", e);
 			}
@@ -63,8 +63,8 @@ public class StupidDimlightDAO extends JDBCDimlightDAO {
 			Bet b = new Bet(rs.getTimestamp(2), rs.getBoolean(5), rs.getDouble(6));
 			b.setId(rs.getInt(1));
 			try {
-				b.setUser(getUserForId(rs.getInt(3)));
-				b.setStatement(getStatementForId(rs.getInt(4)));
+				b.setUser(getUserForId(ProvidedInteger.wrap(rs.getInt(3))));
+				b.setStatement(getStatementForId(ProvidedInteger.wrap(rs.getInt(4))));
 			} catch (DAOException e) {
 				throw new SQLException("Subquery failed", e);
 			}
@@ -77,7 +77,7 @@ public class StupidDimlightDAO extends JDBCDimlightDAO {
 			Message m = new Message(rs.getString(3), rs.getTimestamp(4), rs.getTimestamp(5));
 			m.setId(rs.getInt(1));
 			try {
-				m.setUser(getUserForId(rs.getInt(2)));
+				m.setUser(getUserForId(ProvidedInteger.wrap(rs.getInt(2))));
 			} catch (DAOException e) {
 				throw new SQLException("Subquery failed", e);	
 			}
@@ -87,7 +87,7 @@ public class StupidDimlightDAO extends JDBCDimlightDAO {
 
 	private StatementUpdate statementUpdater;
 		
-	public User getUserForId(int id) throws DAOException {
+	public User getUserForId(ProvidedInteger id) throws DAOException {
 		try {
 			return template.queryForObject("SELECT * FROM User WHERE id = " + id, userRowMapper);			
 		} catch (EmptyResultDataAccessException e) {
@@ -130,13 +130,30 @@ public class StupidDimlightDAO extends JDBCDimlightDAO {
 				);
 		}
 	}
+	
+	
+	public void changeUserBalance(User user, ProvidedInteger balance) throws DAOException {
+		if (user.getId() < 0) {
+			throw new DAOException("User " + user.getName() + " not yet saved");
+		}		
+		template.execute("UPDATE User SET balance=" + balance + " WHERE id=" + user.getId());
+		user.setBalance(balance.asInteger());
+	}
+
+	public void changeUserSecret(User user, String secret) throws DAOException {
+		if (user.getId() < 0) {
+			throw new DAOException("User " + user.getName() + " not yet saved");
+		}
+		template.execute("UPDATE User SET secret='" + secret + "' WHERE id=" + user.getId());
+		user.setSecret(secret);
+	}
 
 	public void removeUser(User user) throws DAOException {
 		template.execute("DELETE FROM User WHERE id = " + user.getId());
 		user.setId(-1);
 	}
 
-	public Statement getStatementForId(int id) throws DAOException {
+	public Statement getStatementForId(ProvidedInteger id) throws DAOException {
 		return template.queryForObject("SELECT * FROM Statement WHERE id=" + id, statementRowMapper);
 	}
 
@@ -172,12 +189,12 @@ public class StupidDimlightDAO extends JDBCDimlightDAO {
 		return template.query("SELECT * FROM Statement", statementRowMapper);
 	}
 
-	public List<Statement> getLastStatements(int count) {
+	public List<Statement> getLastStatements(ProvidedInteger count) {
 		return template.query("SELECT * FROM Statement WHERE resolved is NULL ORDER BY created DESC LIMIT " + count, statementRowMapper);
 	}
 
 	
-	public Bet getBetForId(int id) throws DAOException {
+	public Bet getBetForId(ProvidedInteger id) throws DAOException {
 		return template.queryForObject("SELECT * FROM Bet WHERE id=" + id, betRowMapper);
 	}
 
@@ -209,7 +226,7 @@ public class StupidDimlightDAO extends JDBCDimlightDAO {
 		return template.queryForObject("SELECT * FROM Bet WHERE statement_id=" + s.getId() + " and user_id=" + user.getId(), betRowMapper);
 	}
 
-	public Message getMessageForId(int id) throws DAOException {
+	public Message getMessageForId(ProvidedInteger id) throws DAOException {
 		return template.queryForObject("SELECT * FROM Message WHERE id=" + id, messageRowMapper);
 	}
 

@@ -1,6 +1,7 @@
 package se.netlight.dimlight.dao.category;
 
 import se.netlight.dimlight.dao.IDimlightDAO;
+import se.netlight.dimlight.dao.ProvidedInteger;
 import se.netlight.dimlight.metaframework.AbstractMetaframeworkCategoryImplementation;
 
 public abstract class AbstractDatabaseCategoryImplementation extends AbstractMetaframeworkCategoryImplementation {
@@ -15,4 +16,6 @@ public abstract class AbstractDatabaseCategoryImplementation extends AbstractMet
 	}
 	
 	public abstract <T, E extends Exception> T visit(IDatabaseCategoryVisitor<T, E> v) throws E;
+
+	public abstract ProvidedInteger buildProvidedInteger(String amount);
 }
