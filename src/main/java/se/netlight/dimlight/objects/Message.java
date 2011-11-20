@@ -12,6 +12,12 @@ public class Message {
 	public Message() {
 	}
 	
+	public Message(String content, User user) {
+		this.content = content;
+		this.created = new Date();
+		this.user = user;
+	}
+
 	public Message(String content, Date created, Date read) {
 		this.content = content;
 		this.created = created;

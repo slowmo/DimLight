@@ -19,6 +19,7 @@ public interface IDimlightDAO {
 	public void saveStatement(Statement statement) throws DAOException;
 	public void deleteStatement(Statement statement) throws DAOException;
 	public List<Statement> getStatementsForUser(User user) throws DAOException;
+	public List<Statement> getOpenStatementsForUser(User user) throws DAOException;
 	public List<Statement> getOpenStatements();
 	public List<Statement> getAllStatements();
 	public List<Statement> getLastStatements(ProvidedInteger count);
@@ -28,10 +29,13 @@ public interface IDimlightDAO {
 	public void removeBet(Bet bet) throws DAOException;
 	public List<Bet> getBetsForStatement(Statement s) throws DAOException;
 	public Bet getBetForStatementAndUser(Statement s, User user) throws DAOException;
+	public List<Bet> getOpenBetsForUser(User u) throws DAOException;
+	public void storeBet(Statement s, User u, boolean betOnSuccess,	ProvidedInteger wrapNumericParameter);
 	
 	public Message getMessageForId(ProvidedInteger id) throws DAOException;
 	public void saveMessage(Message message) throws DAOException;
 	public void removeMessage(Message message) throws DAOException;
+	public void markMessageRead(ProvidedInteger id) throws DAOException;
 	public List<Message> getOpenMessagesForUser(User user) throws DAOException;
 	public List<Message> getAllMessagesForUser(User user) throws DAOException;
 }

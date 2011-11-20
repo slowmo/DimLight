@@ -12,9 +12,6 @@ import org.springframework.web.servlet.ModelAndView;
 import se.netlight.dimlight.dao.DAOException;
 import se.netlight.dimlight.dao.IDimlightDAO;
 import se.netlight.dimlight.dao.ProvidedInteger;
-import se.netlight.dimlight.dao.category.AbstractDatabaseCategoryImplementation;
-import se.netlight.dimlight.metaframework.MetaframeworkManager;
-import se.netlight.dimlight.metaframework.session.DimlightSessionManager;
 import se.netlight.dimlight.model.IndexViewBean;
 import se.netlight.dimlight.objects.Statement;
 import se.netlight.dimlight.objects.User;
@@ -62,31 +59,15 @@ public class DimlightMainController extends AbstractDimlightController {
 	
 	@RequestMapping("/profile.do")
 	public ModelAndView profile(HttpSession session) {
-		User u = loadUser(session);
-		return new ModelAndView("profile", "user", u);
+		return buildUserModel(session);
 	}
 	
-	private User loadUser(HttpSession session) {
-		User u = (User) session.getAttribute("user");
-		if (u == null)
-			throw new RuntimeException("Need to be logged in for this page");
-
-		// reload, to see any freshly hacked data :-)
-		try {
-			u = getDao().getUserForId(ProvidedInteger.wrap(u.getId()));
-		} catch (DAOException e) {
-			throw new RuntimeException("Failed to load user", e);
-		}
-		
-		return u;
-	}
 
 	@RequestMapping("/charge.do")
 	public ModelAndView charge(@RequestParam("amount") String amount, HttpSession session) {
-		User u = loadUser(session);
+		User u = loadUser(session, true);
 				
-		AbstractDatabaseCategoryImplementation daoImpl = MetaframeworkManager.getInstance().getSelectedImplementation("database", DimlightSessionManager.getCurrentSession().getContext("database"));
-		ProvidedInteger balance = daoImpl.buildProvidedInteger(amount);
+		ProvidedInteger balance = wrapNumericParameter(amount);
 		
 		int oldBalance = u.getBalance();
 		
@@ -97,12 +78,24 @@ public class DimlightMainController extends AbstractDimlightController {
 			throw new RuntimeException("Failed to save user: ", e);
 		}
 		
-		return new ModelAndView("profile", "user", loadUser(session));
+		return buildUserModel(session);
 	}
 	
+	private ModelAndView buildUserModel(HttpSession session) {
+		User u = loadUser(session, true);
+		ModelAndView ret = new ModelAndView("profile", "user", u);
+		try {
+			ret.addObject("messages", getDao().getOpenMessagesForUser(u));
+			ret.addObject("bets", getDao().getOpenBetsForUser(u));			
+		} catch (DAOException e) {
+			throw new RuntimeException(e);
+		}
+		return ret;
+	}
+
 	@RequestMapping("/changesecret.do")
 	public ModelAndView changeSecret(@RequestParam("secret") String secret, HttpSession session) {
-		User u = loadUser(session);
+		User u = loadUser(session, true);
 				
 		try {			
 			getDao().changeUserSecret(u, secret);
@@ -110,6 +103,18 @@ public class DimlightMainController extends AbstractDimlightController {
 			throw new RuntimeException("Failed to save user: ", e);
 		}
 		
-		return new ModelAndView("profile", "user", loadUser(session));
+		return buildUserModel(session);
+	}
+	
+	@RequestMapping("/readmessage.do")
+	public ModelAndView markMessageRead(@RequestParam("id") String id, HttpSession session) {
+		try {			
+			ProvidedInteger idObj = wrapNumericParameter(id);
+			getDao().markMessageRead(idObj);
+		} catch (DAOException e) {
+			throw new RuntimeException("Failed to save user: ", e);
+		}		
+		return buildUserModel(session);
 	}
 }
+

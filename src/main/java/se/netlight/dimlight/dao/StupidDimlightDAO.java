@@ -60,7 +60,7 @@ public class StupidDimlightDAO extends JDBCDimlightDAO {
 		
 	private RowMapper<Bet> betRowMapper = new RowMapper<Bet>() {
 		public Bet mapRow(ResultSet rs, int rowNum) throws SQLException {
-			Bet b = new Bet(rs.getTimestamp(2), rs.getBoolean(5), rs.getDouble(6));
+			Bet b = new Bet(rs.getTimestamp(2), rs.getBoolean(5), rs.getInt(6));
 			b.setId(rs.getInt(1));
 			try {
 				b.setUser(getUserForId(ProvidedInteger.wrap(rs.getInt(3))));
@@ -181,6 +181,10 @@ public class StupidDimlightDAO extends JDBCDimlightDAO {
 		return template.query("SELECT * FROM Statement WHERE creator_id=" + user.getId(), statementRowMapper);
 	}
 
+	public List<Statement> getOpenStatementsForUser(User user) throws DAOException {
+		return template.query("SELECT * FROM Statement WHERE resolved is null AND creator_id=" + user.getId(), statementRowMapper);
+	}
+
 	public List<Statement> getOpenStatements() {
 		return template.query("SELECT * FROM Statement WHERE resolved is null", statementRowMapper);
 	}
@@ -198,12 +202,16 @@ public class StupidDimlightDAO extends JDBCDimlightDAO {
 		return template.queryForObject("SELECT * FROM Bet WHERE id=" + id, betRowMapper);
 	}
 
+	public List<Bet> getOpenBetsForUser(User u) throws DAOException {
+		return template.query("SELECT b.* FROM Bet b INNER JOIN Statement s ON statement_id = b.id WHERE s.resolved is NULL AND user_id=" + u.getId(), betRowMapper);
+	}
+	
 	public void saveBet(Bet bet) throws DAOException {
 		if (bet.getId() >= 0) {
 			throw new DAOException("Cannot modify a bet");
 		}
-		template.execute("INSERT Bet (CREATED, USER_ID, STATEMENT_ID, POSITIVE, AMOUNT) VALUES ("
-			+ "NOW(), "
+		template.execute("INSERT Bet (CREATED, USER_ID, STATEMENT_ID, POSITIVE, BET_AMOUNT) VALUES ("
+			+ "CURRENT_TIME, "
 			+ bet.getUser().getId() + ","
 			+ bet.getStatement().getId() + ","
 			+ (bet.isPositive()?"TRUE":"FALSE") + ","
@@ -211,6 +219,16 @@ public class StupidDimlightDAO extends JDBCDimlightDAO {
 		);
 		int id = template.queryForObject("SELECT MAX(id) FROM Bet", Integer.class);
 		bet.setId(id);
+	}
+
+	public void storeBet(Statement s, User u, boolean betOnSuccess,	ProvidedInteger amount) {
+		template.execute("INSERT INTO Bet (CREATED, USER_ID, STATEMENT_ID, POSITIVE, BET_AMOUNT) VALUES ("
+				+ "CURRENT_TIME, "
+				+ u.getId() + ","
+				+ s.getId() + ","
+				+ (betOnSuccess?"TRUE":"FALSE") + ","
+				+ amount + ")"
+			);		
 	}
 
 	public void removeBet(Bet bet) throws DAOException {
@@ -237,7 +255,7 @@ public class StupidDimlightDAO extends JDBCDimlightDAO {
 		template.execute("INSERT INTO Message (user_id, content, created) VALUES ("
 				+ message.getUser().getId() + ","
 				+ "'" + message.getContent() + "',"
-				+ "NOW())"
+				+ "CURRENT_TIME)"
 			);
 		int id = template.queryForObject("SELECT MAX(id) FROM Message", Integer.class);
 		message.setId(id);		
@@ -258,6 +276,11 @@ public class StupidDimlightDAO extends JDBCDimlightDAO {
 
 	public List<Message> getAllMessagesForUser(User user) throws DAOException {
 		return template.query("SELECT * FROM Message WHERE user_id=" + user.getId(), messageRowMapper);
+	}
+
+
+	public void markMessageRead(ProvidedInteger id) throws DAOException {
+		template.execute("UPDATE Message SET read=CURRENT_TIME WHERE id=" + id);
 	}
 
 	@Override

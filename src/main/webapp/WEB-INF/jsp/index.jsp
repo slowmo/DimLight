@@ -39,7 +39,7 @@
 		</div>		
 		</c:if>
 		<c:if test="${data.loggedin}">
-			<a href="logout.do">log out</a> - <a href="profile.do">profile page</a>
+			<a href="profile.do">profile page</a> - <a href="statements.do">statements</a> - <a href="logout.do">log out</a> 
 		</c:if>		
 	</div>
 	</body>
