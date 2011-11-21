@@ -1,42 +1,30 @@
 package se.netlight.dimlight.metaframework.mvc;
 
-import java.util.Date;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import se.netlight.dimlight.controller.AbstractDimlightController;
+import se.netlight.dimlight.metaframework.MetaframeworkManager;
+import se.netlight.dimlight.metaframework.mvc.beans.MetaFrameworkBean;
+import se.netlight.dimlight.metaframework.session.DimlightMetaframeworkSessionManager;
 
 @Controller
-@RequestMapping("/meta")
+@RequestMapping("/dimlight/meta")
 public class MetaframeworkController extends AbstractDimlightController {
 	public MetaframeworkController() {
 	}
 	
-	@RequestMapping("/test.do")
-	public ModelAndView testInvokation() {
-		return new ModelAndView("index", "statusMessageKey", new Date());
+	@RequestMapping("/index.do")
+	public ModelAndView index() {
+		return new ModelAndView("metaframework", "data", new MetaFrameworkBean());
 	}
 	
-    @RequestMapping(value = "/compare", method = RequestMethod.GET)
-    public ModelAndView compare(@RequestParam("left") String left,
-            @RequestParam("right") String right) {
-
-    	ModelAndView mav = new ModelAndView("index");
-        return mav;
-    }
-    
-	public ModelAndView handleRequest(HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
-
-		ModelAndView mav = new ModelAndView("index");
-		
-		return mav;
+	@RequestMapping("/changemetavalue.do")
+	public ModelAndView changeMetaValue(@RequestParam("category") String category, @RequestParam("implementation") String implementation) {
+		MetaframeworkManager.getInstance().checkSelectedImplementation(category, implementation);
+		DimlightMetaframeworkSessionManager.getCurrentSession().setContext(category, implementation);
+		return new ModelAndView("metaframework", "data", new MetaFrameworkBean());
 	}
 }

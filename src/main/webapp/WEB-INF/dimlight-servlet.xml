@@ -21,7 +21,7 @@
 	</bean>
 
 	<mvc:interceptors>
-	    <bean class="se.netlight.dimlight.metaframework.session.DimlightSessionInterceptor" />
+	    <bean class="se.netlight.dimlight.metaframework.session.DimlightMetaframeworkSessionInterceptor" />
 	</mvc:interceptors>
 
 </beans>

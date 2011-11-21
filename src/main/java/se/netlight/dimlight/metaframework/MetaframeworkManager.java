@@ -61,4 +61,14 @@ public class MetaframeworkManager {
 		String choice = categoryConfigurationStorage.getCategoryChoice(category);
 		return getSelectedImplementation(category, choice);
 	}
+
+	public void checkSelectedImplementation(String category, String implementation) {
+		MetaframeworkCategory<?> c = categoriesMap.get(category);
+		if (c == null)
+			throw new RuntimeException("Unknown category " + category);
+		
+		Object impl = c.getImplementation(implementation);
+		if (impl == null)
+			throw new RuntimeException("Unknown implementation " + implementation + " for category " + category);
+	}
 }

@@ -24,6 +24,23 @@
 		<property name="name" value="stupid" />
 		<property name="display" value="Easy" />
 		<property name="description" value="An implementation where basically everything is open for attack. Uses JDBC without prepared statements, no sanitation, full error display." />
+		<property name="defaultImplementation" value="true" />
+	
+		<property name="dao" ref="stupidDAO"/>
+	</bean>
+
+	<bean id="mediumDatabaseImplementation" class="se.netlight.dimlight.dao.category.StupidDatabaseImplementation">
+		<property name="name" value="medium" />
+		<property name="display" value="Medium" />
+		<property name="description" value="An implementation that does sanitation, but still offers gaping security holes to exploit." />
+	
+		<property name="dao" ref="stupidDAO"/>
+	</bean>
+
+	<bean id="cleverDatabaseImplementation" class="se.netlight.dimlight.dao.category.StupidDatabaseImplementation">
+		<property name="name" value="clever" />
+		<property name="display" value="Hard" />
+		<property name="description" value="An implementation that makes hacking pretty hard, as it does sanitation and supresses error messages." />
 	
 		<property name="dao" ref="stupidDAO"/>
 	</bean>
@@ -35,6 +52,8 @@
 		<property name="implementations">
 			<list>
 				<ref bean="stupidDatabaseImplementation"/>
+				<ref bean="mediumDatabaseImplementation"/>
+				<ref bean="cleverDatabaseImplementation"/>
 			</list>
 		</property>
 	</bean>
@@ -49,7 +68,7 @@
 		</property>
 	</bean>
 	
-	<bean id="sessionManager" class="se.netlight.dimlight.metaframework.session.DimlightSessionManager">	
+	<bean id="sessionManager" class="se.netlight.dimlight.metaframework.session.DimlightMetaframeworkSessionManager">	
 	</bean>	
 	
 </beans>

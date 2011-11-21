@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
-public class DimlightSessionInterceptor implements HandlerInterceptor {
+public class DimlightMetaframeworkSessionInterceptor implements HandlerInterceptor {
 	private static final String COOKIE_NAME = "DIMLIGHT_METAFRAMEWORK_TOKEN:DO:NOT:HACK";
 
 	public void afterCompletion(HttpServletRequest arg0,
@@ -30,9 +30,9 @@ public class DimlightSessionInterceptor implements HandlerInterceptor {
 			}
 		}
 		if (token != null) {
-			DimlightSessionManager.getInstance().announceSession(token);
+			DimlightMetaframeworkSessionManager.getInstance().announceSession(token);
 		} else {
-			token = DimlightSessionManager.getInstance().announceNewSession();
+			token = DimlightMetaframeworkSessionManager.getInstance().announceNewSession();
 			arg1.addCookie(new Cookie(COOKIE_NAME, token));
 		}			
 		return true;

@@ -185,3 +185,12 @@ ul.claims div.data {
 	font-size: 10px;
 	font-style: italic;
 }
+
+.category .selections {
+	padding-left: 16px;	
+}
+
+.category .selections .implementation {
+	border-bottom: 1px solid #AAAAAA;
+	padding: 8px 4px;
+}
