@@ -13,15 +13,17 @@
 				href="charge.do?amount=1000">1000 SEK</a> <span class="hint">(In
 				reality, this would be withdrawn from your credit card.)</span>
 		</div>
-	</stripes:layout-component>
-	<stripes:layout-component name="content">
+
 		<div>
-			<form method="post" action="changesecret.do">
+			<form method="get" action="changesecret.do">
 				Your secret: <input type="text" name="secret"
 					value="<c:out value="${ user.secret }"/>" /><input type="submit"
 					value="Change it!" />
+					<div class="hint">(This is sort of a placeholder for a generic secret that other people might like to steal or change)</div>
 			</form>
 		</div>
+	</stripes:layout-component>
+	<stripes:layout-component name="contents">
 		<div>
 			<h2>Your bets</h2>
 			<ul>

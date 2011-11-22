@@ -47,10 +47,11 @@ GRANT USAGE ON DOMAIN INFORMATION_SCHEMA.CHARACTER_DATA TO PUBLIC
 GRANT USAGE ON DOMAIN INFORMATION_SCHEMA.SQL_IDENTIFIER TO PUBLIC
 SET SCHEMA PUBLIC
 INSERT INTO USER VALUES(1,'Mo','moritz.hammer@netlight.se',TRUE,'secret',100.0E0,'my darkest secret')
-INSERT INTO USER VALUES(2,'Andreas','andreas.jansson@netlight.se',TRUE,'secret',100.0E0,'my darkest secret')
+INSERT INTO USER VALUES(2,'Andreas','andreas.jansson@netlight.se',TRUE,'secret',100.0E0,'Andreas'' darkest secret')
 INSERT INTO USER VALUES(3,'Johan','johan.x@netlight.se',FALSE,'secret',1.0E0,'my darkest secret')
 INSERT INTO USER VALUES(4,'Anders','anders.y@netlight.se',FALSE,'secret',1.0E0,'my darkest secret')
 INSERT INTO USER VALUES(5,'Erik','erik.z@netlight.se',FALSE,'secret',1.0E0,'my darkest secret')
 INSERT INTO STATEMENT VALUES(1,'Noone can hack this app','I bet noone can hack this app within the next month!',1,'2011-10-16 16:30:00.000000',NULL,NULL)
 INSERT INTO BET VALUES(1,'2011-10-16 16:35:00.000000',1,1,TRUE,10.0E0)
+UPDATE USER SET SECRET=NAME + '''s darkest secret!'
 INSERT INTO MESSAGE (USER_ID,CONTENT,CREATED) SELECT u.id, 'Welcome to Dimlight! Great to have you here!',CURRENT_TIME FROM User u 
