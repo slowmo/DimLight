@@ -100,19 +100,14 @@ public class DimlightStatementController extends AbstractDimlightController {
 
 		User u = loadUser(session, true);
 
-		if (u.getBalance() < Integer.parseInt(amount)){
-			ModelAndView mav = buildUserModel(session);
-			mav.addObject(PAGE_MESSAGE, "<p style='color:red;'>Unsufficient funds!!!</p>");
-			return mav;
-//			throw new RuntimeException("Insufficient balance");
-		}
+		if (u.getBalance() < Integer.parseInt(amount))
+			throw new RuntimeException("Insufficient balance");
+		
 		getDao().storeBet(s, u, betOnSuccess, wrapNumericParameter(amount));
 		getDao().changeUserBalance(u,
 				ProvidedInteger.wrap(u.getBalance() - Integer.parseInt(amount)));
 
-		ModelAndView mav = buildUserModel(session);
-		mav.addObject(PAGE_MESSAGE, "<p style='color:green;'>You placed a "+amount+" value bet!</p>");
-		return mav;
+		return buildUserModel(session);
 	}
 
 	@RequestMapping("/addStatement.do")
