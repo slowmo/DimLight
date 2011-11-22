@@ -12,6 +12,8 @@ import se.netlight.dimlight.metaframework.session.DimlightMetaframeworkSessionMa
 import se.netlight.dimlight.objects.User;
 
 public abstract class AbstractDimlightController {
+	public static final String PAGE_MESSAGE = "message";
+	
 	protected IDimlightDAO getDao() {
 		DimlightMetaframeworkSession session = DimlightMetaframeworkSessionManager.getCurrentSession();		
 		AbstractDatabaseCategoryImplementation daoImpl = MetaframeworkManager.getInstance().getSelectedImplementation("database", session.getContext("database"));

@@ -1,5 +1,5 @@
 <%@ include file="/WEB-INF/taglibs.jspf"%>
-<stripes:layout-render name="/WEB-INF/layout/default.jsp" pageTitle="Statements">
+<stripes:layout-render name="/WEB-INF/layout/default.jsp" pageTitle="Statements" >
 	<stripes:layout-component name="contents">
 		<h2>Open statements</h2>
 		<div>
@@ -22,8 +22,8 @@
 				<form method="post" action="placeBet.do">
 				<input type="text" name="amount"/>
 				<input type="hidden" name="id" value="<c:out value="${statement.id}"/>"/>				
-				<input type="submit" value="Bet on success" name="bet"/>
-				<input type="submit" value="Bet on failure" name="bet"/>
+				<input type="submit" value="Bet on success" name="bet" style="width:120px;"/>
+				<input type="submit" value="Bet on failure" name="bet"  style="width:120px;"/>
 				</form>
 				<a href="showyourbets.do?statement=<c:out value="${statement.id}"/>">Show your bets on this statement</a>
 				</div>

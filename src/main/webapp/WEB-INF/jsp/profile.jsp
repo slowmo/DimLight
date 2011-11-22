@@ -14,7 +14,7 @@
 				reality, this would be withdrawn from your credit card.)</span>
 		</div>
 	</stripes:layout-component>
-	<stripes:layout-component name="content">
+	<stripes:layout-component name="contents">
 		<div>
 			<form method="post" action="changesecret.do">
 				Your secret: <input type="text" name="secret"
