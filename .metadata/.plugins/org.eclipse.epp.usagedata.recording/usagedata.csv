@@ -1,0 +1,22 @@
+what,kind,bundleId,bundleVersion,description,time
+started,bundle,org.jboss.ide.eclipse.archives.webtools,2.3.0.v20110915-1659-H30-M3,"org.jboss.ide.eclipse.archives.webtools",1321864686206
+deactivated,workbench,org.eclipse.ui.workbench,3.7.0.I20110519-0100,"",1321864688851
+activated,workbench,org.eclipse.ui.workbench,3.7.0.I20110519-0100,"",1321864716553
+executed,command,org.eclipse.ui,3.7.0.I20110602-0100,"org.eclipse.ui.file.import",1321864716572
+executed,command,org.eclipse.ui,3.7.0.I20110602-0100,"org.eclipse.ui.file.import",1321864716572
+deactivated,workbench,org.eclipse.ui.workbench,3.7.0.I20110519-0100,"",1321864718413
+activated,workbench,org.eclipse.ui.workbench,3.7.0.I20110519-0100,"",1321864743410
+deactivated,workbench,org.eclipse.ui.workbench,3.7.0.I20110519-0100,"",1321864748337
+activated,workbench,org.eclipse.ui.workbench,3.7.0.I20110519-0100,"",1321864757807
+closed,workbench,org.eclipse.ui.workbench,3.7.0.I20110519-0100,"",1321864757884
+error,log,,,"Could not write: /Users/andreas/Code/development/git/DimLight/.metadata/.mylyn/repositories.xml.zip",1321864757981
+error,log,,,"Problems saving workspace",1321864759355
+error,log,,,"Problems occurred while trying to save the state of the workbench.",1321864759356
+started,bundle,org.eclipse.wst.sse.core,1.1.601.v201108151912,"org.eclipse.wst.sse.core",1321864759511
+started,bundle,org.eclipse.wst.sse.ui,1.3.1.v201108191312,"org.eclipse.wst.sse.ui",1321864759523
+stopped,bundle,org.eclipse.jst.ws.axis.creation.ui,1.0.700.v201104070312,"org.eclipse.jst.ws.axis.creation.ui",1321864759650
+stopped,bundle,org.eclipse.jst.ws.axis.consumption.ui,1.0.505.v201004211805,"org.eclipse.jst.ws.axis.consumption.ui",1321864759660
+stopped,bundle,org.eclipse.jst.ws.axis.consumption.core,1.0.407.v201104071820,"org.eclipse.jst.ws.axis.consumption.core",1321864759674
+stopped,bundle,org.eclipse.jst.ws.axis2.creation.ui,1.0.104.v201004211805,"org.eclipse.jst.ws.axis2.creation.ui",1321864759689
+stopped,bundle,org.eclipse.jst.ws.axis2.consumption.ui,1.0.103.v201004211805,"org.eclipse.jst.ws.axis2.consumption.ui",1321864759697
+stopped,bundle,org.eclipse.jst.ws.axis2.creation.core,1.0.106.v201004211805,"org.eclipse.jst.ws.axis2.creation.core",1321864759699
