@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 <%@ include file="/WEB-INF/taglibs.jspf"%>
 <stripes:layout-render name="/WEB-INF/layout/default.jsp"
 	pageTitle="Metaframework">
@@ -44,6 +45,8 @@
 	</stripes:layout-component>
 </stripes:layout-render>
 =======
+=======
+>>>>>>> upstream/master
 <%@ include file="/WEB-INF/jsp/include.jsp" %>
 <html>
 	<head>
@@ -80,4 +83,7 @@
 	</div>
 	</body>
 </html>
+<<<<<<< HEAD
+>>>>>>> upstream/master
+=======
 >>>>>>> upstream/master
