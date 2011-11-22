@@ -4,9 +4,7 @@
    <html>
 		<head>
 			<title>${pageTitle}</title>
-			<style>
-			<%@ include file="/WEB-INF/resources/dimlight.css" %> <!-- sorry, Spring MVC is worthless when it comes to loading static resources -->
-			</style>
+			<link rel="stylesheet" href="/css/dimlight.css" type="text/css"></link>
 			<c:set var="user"><% session.getAttribute("user"); %></c:set>
 		</head>
 		<body>
