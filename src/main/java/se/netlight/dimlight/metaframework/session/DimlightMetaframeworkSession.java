@@ -3,12 +3,12 @@ package se.netlight.dimlight.metaframework.session;
 import java.util.HashMap;
 
 
-public class DimlightSession {
+public class DimlightMetaframeworkSession {
 	private long lastAccess;
 	private String token;
 	private HashMap<String, String> contexts;
 	
-	public DimlightSession(String token) {
+	public DimlightMetaframeworkSession(String token) {
 		this.token = token;
 		this.contexts = new HashMap<String, String>();
 	}
