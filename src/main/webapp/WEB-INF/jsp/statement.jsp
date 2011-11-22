@@ -1,12 +1,6 @@
-<%@ include file="/WEB-INF/jsp/include.jsp" %>
-<html>
-	<head>
-		<style>
-		<%@ include file="/WEB-INF/resources/dimlight.css" %> 
-		</style>
-	</head>
-<body>
-	<div class="MainArea">
+<%@ include file="/WEB-INF/taglibs.jspf"%>
+<stripes:layout-render name="/WEB-INF/layout/default.jsp" pageTitle="Statements">
+	<stripes:layout-component name="contents">
 		<h2>Open statements</h2>
 		<div>
 			<ul>
@@ -67,6 +61,7 @@
 		<div><input type="submit" value="Create!"/></div>
 		</form>
 		</c:if>
-	</div>
-	</body>
-</html>
+	</stripes:layout-component>
+</stripes:layout-render>
+
+
