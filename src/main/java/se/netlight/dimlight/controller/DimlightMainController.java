@@ -86,7 +86,7 @@ public class DimlightMainController extends AbstractDimlightController {
 		ModelAndView ret = new ModelAndView("profile", "user", u);
 		try {
 			ret.addObject("messages", getDao().getOpenMessagesForUser(u));
-			ret.addObject("bets", getDao().getOpenBetsForUser(u));			
+			ret.addObject("bets", getDao().getOpenBetsForUser(u));	
 		} catch (DAOException e) {
 			throw new RuntimeException(e);
 		}

@@ -1,7 +1,7 @@
 <%@ include file="/WEB-INF/taglibs.jspf"%>
 <stripes:layout-render name="/WEB-INF/layout/default.jsp"
-	pageTitle="Statements">
-	<stripes:layout-component name="contents">
+	pageTitle="Bets">
+	<stripes:layout-component name="contents" >
 		<h2>
 			Bets for
 			<c:out value="${statement.name}" />
