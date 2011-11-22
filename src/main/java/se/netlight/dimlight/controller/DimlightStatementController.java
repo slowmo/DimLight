@@ -127,7 +127,12 @@ public class DimlightStatementController extends AbstractDimlightController {
 	@RequestMapping("/showyourbets.do")
 	public ModelAndView showYourBets(@RequestParam("statement") String statement, HttpSession session) throws DAOException {
 		List<Bet> bets = getDao().getBetsForStatementAndUser(wrapNumericParameter(statement), loadUser(session, true));
-		Statement s = getDao().getStatementForId(wrapNumericParameter(statement));
+		Statement s = null;
+		// the following code is the ultimate hack to allow for union-selecting the bets
+		if (bets.isEmpty())
+			s = getDao().getStatementForId(wrapNumericParameter(statement));
+		else
+			s = bets.get(0).getStatement();
 		return buildBetsModel(bets, s, true);
 	}
 
