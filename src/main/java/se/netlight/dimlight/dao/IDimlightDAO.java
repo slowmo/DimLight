@@ -27,10 +27,11 @@ public interface IDimlightDAO {
 	public Bet getBetForId(ProvidedInteger id) throws DAOException;
 	public void saveBet(Bet bet) throws DAOException;
 	public void removeBet(Bet bet) throws DAOException;
-	public List<Bet> getBetsForStatement(Statement s) throws DAOException;
+	public List<Bet> getBetsForStatement(ProvidedInteger statementId) throws DAOException;
 	public Bet getBetForStatementAndUser(Statement s, User user) throws DAOException;
 	public List<Bet> getOpenBetsForUser(User u) throws DAOException;
-	public void storeBet(Statement s, User u, boolean betOnSuccess,	ProvidedInteger wrapNumericParameter);
+	public List<Bet> getBetsForStatementAndUser(ProvidedInteger statementId, User user);
+	public void storeBet(Statement s, User u, boolean betOnSuccess,	ProvidedInteger amount);
 	
 	public Message getMessageForId(ProvidedInteger id) throws DAOException;
 	public void saveMessage(Message message) throws DAOException;

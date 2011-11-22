@@ -28,7 +28,7 @@ public class DimlightStatementController extends AbstractDimlightController {
 
 
 	@RequestMapping("/closestatement.do")
-	public ModelAndView changeSecret(@RequestParam("id") String id, @RequestParam("outcome") String outcome, HttpSession session) {
+	public ModelAndView closeStatement(@RequestParam("id") String id, @RequestParam("outcome") String outcome, HttpSession session) {
 		boolean positive = outcome.equals("1");
 					
 		try {			
@@ -37,7 +37,7 @@ public class DimlightStatementController extends AbstractDimlightController {
 				throw new RuntimeException("Unknown statement with id " + id);
 			
 			// gather the price pool
-			List<Bet> betsForStatement = getDao().getBetsForStatement(statement);
+			List<Bet> betsForStatement = getDao().getBetsForStatement(wrapNumericParameter(id));
 			double pricePool = 0, wonPrice = 0;
 			for (Bet bet : betsForStatement) {				
 				pricePool += bet.getAmount();
@@ -106,7 +106,6 @@ public class DimlightStatementController extends AbstractDimlightController {
 		return buildUserModel(session);
 	}
 	
-
 	private ModelAndView buildUserModel(HttpSession session) {
 		ModelAndView mav = new ModelAndView("statement");
 		User user = loadUser(session, false);
@@ -122,4 +121,28 @@ public class DimlightStatementController extends AbstractDimlightController {
 		}
 		return mav;
 	}
+
+	@RequestMapping("/showyourbets.do")
+	public ModelAndView showYourBets(@RequestParam("statement") String statement, HttpSession session) throws DAOException {
+		List<Bet> bets = getDao().getBetsForStatementAndUser(wrapNumericParameter(statement), loadUser(session, true));
+		Statement s = getDao().getStatementForId(wrapNumericParameter(statement));
+		return buildBetsModel(bets, s, true);
+	}
+
+	@RequestMapping("/showbets.do")
+	public ModelAndView showStatementBets(@RequestParam("statement") String statement, HttpSession session) throws DAOException {
+		List<Bet> bets = getDao().getBetsForStatement(wrapNumericParameter(statement));
+		Statement s = getDao().getStatementForId(wrapNumericParameter(statement));
+		return buildBetsModel(bets, s, false);
+	}
+	
+	private ModelAndView buildBetsModel(List<Bet> bets, Statement statement, boolean currentUser) {
+		ModelAndView mav = new ModelAndView("bets");
+		mav.addObject("bets", bets);
+		mav.addObject("statement", statement);
+		mav.addObject("currentUser", currentUser);
+		return mav;
+	}
+	
+
 }

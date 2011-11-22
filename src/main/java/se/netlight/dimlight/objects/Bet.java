@@ -55,6 +55,10 @@ public class Bet {
 	public int getAmount() {
 		return amount;
 	}
+	
+	public String getPositiveString() {
+		return positive?"sucess":"failure";
+	}
 
 	public Bet(Statement statement, User user, boolean positive, int amount) {
 		this.statement = statement;

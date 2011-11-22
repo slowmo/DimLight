@@ -31,6 +31,7 @@
 				<input type="submit" value="Bet on success" name="bet"/>
 				<input type="submit" value="Bet on failure" name="bet"/>
 				</form>
+				<a href="showyourbets.do?statement=<c:out value="${statement.id}"/>">Show your bets on this statement</a>
 				</div>
 				<div style="clear:both;"></div>
 				</li>
@@ -49,9 +50,12 @@
 				<span><c:out value="${statement.description}"/></span>
 			</div>
 			<div class="data">
-				<span>created <c:out value="${statement.created}"/></span> -
+				<span>created <c:out value="${statement.created}"/></span>
+				<div>
 				<a href="closestatement.do?id=<c:out value="${statement.id}"/>&outcome=1">Close as successful</a> - 
-				<a href="closestatement.do?id=<c:out value="${statement.id}"/>&outcome=0">Close as failed</a>
+				<a href="closestatement.do?id=<c:out value="${statement.id}"/>&outcome=0">Close as failed</a> - 
+				<a href="showbets.do?statement=<c:out value="${statement.id}"/>">Show bets on this statement</a>
+				</div>
 			</div>
 			</li>
 		</c:forEach>

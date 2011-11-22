@@ -199,11 +199,15 @@ public class StupidDimlightDAO extends JDBCDimlightDAO {
 
 	
 	public Bet getBetForId(ProvidedInteger id) throws DAOException {
-		return template.queryForObject("SELECT * FROM Bet WHERE id=" + id, betRowMapper);
+		return template.queryForObject("SELECT  b.id, b.created, user_id, statement_id, positive, bet_amount FROM Bet b WHERE id=" + id, betRowMapper);
 	}
 
 	public List<Bet> getOpenBetsForUser(User u) throws DAOException {
-		return template.query("SELECT b.* FROM Bet b INNER JOIN Statement s ON statement_id = b.id WHERE s.resolved is NULL AND user_id=" + u.getId(), betRowMapper);
+		return template.query("SELECT b.id, b.created, user_id, statement_id, positive, bet_amount FROM Bet b INNER JOIN Statement s ON statement_id = b.id WHERE s.resolved is NULL AND user_id=" + u.getId(), betRowMapper);
+	}
+
+	public List<Bet> getBetsForStatementAndUser(ProvidedInteger statement, User u) {
+		return template.query("SELECT b.id, b.created, user_id, statement_id, positive, bet_amount FROM Bet b WHERE statement_id = " + statement + " AND user_id=" + u.getId(), betRowMapper);
 	}
 	
 	public void saveBet(Bet bet) throws DAOException {
@@ -236,8 +240,8 @@ public class StupidDimlightDAO extends JDBCDimlightDAO {
 		bet.setId(-1);
 	}
 
-	public List<Bet> getBetsForStatement(Statement s) throws DAOException {
-		return template.query("SELECT * FROM Bet WHERE statement_id=" + s.getId(), betRowMapper);
+	public List<Bet> getBetsForStatement(ProvidedInteger s) throws DAOException {
+		return template.query("SELECT b.id, b.created, b.user_id, b.statement_id, b.positive, b.bet_amount FROM Bet b WHERE statement_id=" + s, betRowMapper);
 	}
 
 	public Bet getBetForStatementAndUser(Statement s, User user) throws DAOException {
