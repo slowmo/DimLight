@@ -2,9 +2,11 @@ package se.netlight.dimlight.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -115,6 +117,11 @@ public class DimlightMainController extends AbstractDimlightController {
 			throw new RuntimeException("Failed to save user: ", e);
 		}		
 		return buildUserModel(session);
+	}
+	
+	@ExceptionHandler(Exception.class)
+	public ModelAndView handleDAOException(Exception ex, HttpServletRequest request) throws Exception {		
+		return ErrorHandler.handleException(ex);
 	}
 }
 

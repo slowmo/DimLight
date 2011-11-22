@@ -1,16 +1,17 @@
 package se.netlight.dimlight.dao.category;
 
 import se.netlight.dimlight.dao.ProvidedInteger;
-import se.netlight.dimlight.dao.VerbatimProvidedInteger;
+import se.netlight.dimlight.dao.WrappedProvidedInteger;
 
-public class StupidDatabaseImplementation extends AbstractDatabaseCategoryImplementation {
+public class MediumDatabaseImplementation extends AbstractDatabaseCategoryImplementation {
 	@Override
 	public ProvidedInteger buildProvidedInteger(String amount) {
-		return new VerbatimProvidedInteger(amount);
+		return new WrappedProvidedInteger(amount);
 	}
 
 	@Override
 	public boolean shouldSuppressException(Exception ex) {
 		return false;
 	}
+
 }

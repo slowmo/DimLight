@@ -8,6 +8,10 @@ public class WrappedProvidedInteger extends ProvidedInteger {
 		this.value = value;
 	}
 
+	public WrappedProvidedInteger(String amount) {
+		this.value = Integer.parseInt(amount);
+	}
+
 	@Override
 	public int asInteger() {
 		return value;

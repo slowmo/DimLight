@@ -11,7 +11,7 @@ import se.netlight.dimlight.metaframework.session.DimlightMetaframeworkSession;
 import se.netlight.dimlight.metaframework.session.DimlightMetaframeworkSessionManager;
 import se.netlight.dimlight.objects.User;
 
-public abstract class AbstractDimlightController {
+public abstract class AbstractDimlightController {	
 	protected IDimlightDAO getDao() {
 		DimlightMetaframeworkSession session = DimlightMetaframeworkSessionManager.getCurrentSession();		
 		AbstractDatabaseCategoryImplementation daoImpl = MetaframeworkManager.getInstance().getSelectedImplementation("database", session.getContext("database"));
@@ -40,5 +40,4 @@ public abstract class AbstractDimlightController {
 		
 		return u;
 	}
-
 }

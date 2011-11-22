@@ -1,12 +1,6 @@
-<%@ include file="/WEB-INF/jsp/include.jsp" %>
-<html>
-	<head>
-		<style>
-		<%@ include file="/WEB-INF/resources/dimlight.css" %> 
-		</style>
-	</head>
-<body>
-	<div class="MainArea">
+<%@ include file="/WEB-INF/taglibs.jspf"%>
+<stripes:layout-render name="/WEB-INF/layout/default.jsp" pageTitle="Start">
+	<stripes:layout-component name="header">
 		<h2>Bets for <c:out value="${statement.name}"/></h2>
 		<div>
 		<c:choose>		
@@ -21,6 +15,5 @@
 		</c:forEach>		
 		</ul>
 		</div>
-	</div>
-	</body>
-</html>
+</stripes:layout-component>
+</stripes:layout-render>

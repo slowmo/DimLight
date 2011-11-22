@@ -29,7 +29,7 @@
 		<property name="dao" ref="stupidDAO"/>
 	</bean>
 
-	<bean id="mediumDatabaseImplementation" class="se.netlight.dimlight.dao.category.StupidDatabaseImplementation">
+	<bean id="mediumDatabaseImplementation" class="se.netlight.dimlight.dao.category.MediumDatabaseImplementation">
 		<property name="name" value="medium" />
 		<property name="display" value="Medium" />
 		<property name="description" value="An implementation that does sanitation, but still offers gaping security holes to exploit." />
@@ -37,7 +37,7 @@
 		<property name="dao" ref="stupidDAO"/>
 	</bean>
 
-	<bean id="cleverDatabaseImplementation" class="se.netlight.dimlight.dao.category.StupidDatabaseImplementation">
+	<bean id="cleverDatabaseImplementation" class="se.netlight.dimlight.dao.category.CleverDatabaseImplementation">
 		<property name="name" value="clever" />
 		<property name="display" value="Hard" />
 		<property name="description" value="An implementation that makes hacking pretty hard, as it does sanitation and supresses error messages." />

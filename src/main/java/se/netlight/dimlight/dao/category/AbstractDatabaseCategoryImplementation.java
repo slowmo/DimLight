@@ -15,7 +15,7 @@ public abstract class AbstractDatabaseCategoryImplementation extends AbstractMet
 		return dao;
 	}
 	
-	public abstract <T, E extends Exception> T visit(IDatabaseCategoryVisitor<T, E> v) throws E;
-
 	public abstract ProvidedInteger buildProvidedInteger(String amount);
+
+	public abstract boolean shouldSuppressException(Exception ex);
 }

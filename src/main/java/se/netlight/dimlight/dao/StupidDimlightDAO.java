@@ -203,7 +203,7 @@ public class StupidDimlightDAO extends JDBCDimlightDAO {
 	}
 
 	public List<Bet> getOpenBetsForUser(User u) throws DAOException {
-		return template.query("SELECT b.id, b.created, user_id, statement_id, positive, bet_amount FROM Bet b INNER JOIN Statement s ON statement_id = b.id WHERE s.resolved is NULL AND user_id=" + u.getId(), betRowMapper);
+		return template.query("SELECT b.id, b.created, user_id, statement_id, positive, bet_amount FROM Bet b INNER JOIN Statement s ON b.statement_id = s.id WHERE s.resolved is NULL AND user_id=" + u.getId(), betRowMapper);
 	}
 
 	public List<Bet> getBetsForStatementAndUser(ProvidedInteger statement, User u) {
