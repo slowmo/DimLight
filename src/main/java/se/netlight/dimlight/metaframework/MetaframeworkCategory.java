@@ -23,6 +23,8 @@ public class MetaframeworkCategory<T extends AbstractMetaframeworkCategoryImplem
 
 	@SuppressWarnings("unchecked")
 	public T getImplementation(String choice) {
+		if (choice == null)
+			return (T) defaultImplementation;
 		AbstractMetaframeworkCategoryImplementation mci = implementationsMap.get(choice);
 		if (mci == null)
 			mci = defaultImplementation;

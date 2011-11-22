@@ -7,19 +7,19 @@ import se.netlight.dimlight.dao.IDimlightDAO;
 import se.netlight.dimlight.dao.ProvidedInteger;
 import se.netlight.dimlight.dao.category.AbstractDatabaseCategoryImplementation;
 import se.netlight.dimlight.metaframework.MetaframeworkManager;
-import se.netlight.dimlight.metaframework.session.DimlightSession;
-import se.netlight.dimlight.metaframework.session.DimlightSessionManager;
+import se.netlight.dimlight.metaframework.session.DimlightMetaframeworkSession;
+import se.netlight.dimlight.metaframework.session.DimlightMetaframeworkSessionManager;
 import se.netlight.dimlight.objects.User;
 
 public abstract class AbstractDimlightController {
 	protected IDimlightDAO getDao() {
-		DimlightSession session = DimlightSessionManager.getCurrentSession();		
+		DimlightMetaframeworkSession session = DimlightMetaframeworkSessionManager.getCurrentSession();		
 		AbstractDatabaseCategoryImplementation daoImpl = MetaframeworkManager.getInstance().getSelectedImplementation("database", session.getContext("database"));
 		return daoImpl.getDao();
 	}
 	
 	protected ProvidedInteger wrapNumericParameter(String id) {
-		AbstractDatabaseCategoryImplementation daoImpl = MetaframeworkManager.getInstance().getSelectedImplementation("database", DimlightSessionManager.getCurrentSession().getContext("database"));
+		AbstractDatabaseCategoryImplementation daoImpl = MetaframeworkManager.getInstance().getSelectedImplementation("database", DimlightMetaframeworkSessionManager.getCurrentSession().getContext("database"));
 		return daoImpl.buildProvidedInteger(id);
 	}
 	
