@@ -14,7 +14,7 @@
 					<span><c:out value="${statement.description}"/></span>
 				</div>
 				<div class="data">
-					<span>by <c:out value="${statement.creator.name}"/> - created <c:out value="${statement.created}"/> </span>
+					<span>by <a href="user.do?id=<c:out value="${statement.creator.id}" />"><c:out value="${statement.creator.name}" /></a> - created <c:out value="${statement.created}"/> </span>
 					<a href="makebet.do?id=<c:out value="${statement.id}"/>"></a>
 				</div>
 				</div>
@@ -33,7 +33,7 @@
 			</ul>
 		</div>
 		<c:if test="${user.loggedin}">
-		<h3>Your statements</h3>
+		<h2>Your statements</h2>
 		<ul>
 		<c:forEach var="statement" items="${statements}">
 			<li>

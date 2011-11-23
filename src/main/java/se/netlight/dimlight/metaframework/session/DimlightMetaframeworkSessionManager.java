@@ -1,7 +1,5 @@
 package se.netlight.dimlight.metaframework.session;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Calendar;
@@ -50,19 +48,26 @@ public class DimlightMetaframeworkSessionManager {
 		}
 	}
 
+	public static String getHexString(byte[] b) {
+		  String result = "";
+		  for (int i=0; i < b.length; i++) {
+		    result +=
+		          Integer.toString( ( b[i] & 0xff ) + 0x100, 16).substring( 1 );
+		  }
+		  return result;
+		}
+	
 	public String announceNewSession() {
 		try {
 			// generate the token
 			MessageDigest digest = MessageDigest.getInstance("MD5");
 			String clear = Calendar.getInstance().getTimeInMillis() + ":" + SERVER_SECRET;
 			byte[] calculated = digest.digest(clear.getBytes());
-			String token = URLEncoder.encode(new String(calculated), "UTF-8");
+			String token = getHexString(calculated);
 			
 			// use it to generate a new session
 			announceSession(token);
 			return token;
-		} catch (UnsupportedEncodingException e) {
-			throw new RuntimeException("Server configuration failure; fatal", e);
 		} catch (NoSuchAlgorithmException e) {
 			throw new RuntimeException("Server configuration failure; fatal", e);
 		}		

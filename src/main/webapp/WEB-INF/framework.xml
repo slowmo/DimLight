@@ -19,6 +19,10 @@
 	<bean id="stupidDAO" class="se.netlight.dimlight.dao.StupidDimlightDAO">
 		<property name="datasource" ref="datasource" />	
 	</bean>
+
+	<bean id="sanitizedDAO" class="se.netlight.dimlight.dao.SanitizingDAOAdapter">
+		<property name="dao" ref="stupidDAO" />	
+	</bean>
 	
 	<bean id="stupidDatabaseImplementation" class="se.netlight.dimlight.dao.category.StupidDatabaseImplementation">
 		<property name="name" value="stupid" />
@@ -34,7 +38,7 @@
 		<property name="display" value="Medium" />
 		<property name="description" value="An implementation that does sanitation, but still offers gaping security holes to exploit." />
 	
-		<property name="dao" ref="stupidDAO"/>
+		<property name="dao" ref="sanitizedDAO"/>
 	</bean>
 
 	<bean id="cleverDatabaseImplementation" class="se.netlight.dimlight.dao.category.CleverDatabaseImplementation">
@@ -42,7 +46,15 @@
 		<property name="display" value="Hard" />
 		<property name="description" value="An implementation that makes hacking pretty hard, as it does sanitation and supresses error messages." />
 	
-		<property name="dao" ref="stupidDAO"/>
+		<property name="dao" ref="sanitizedDAO"/>
+	</bean>
+	
+	<bean id="impossibleDatabaseImplementation" class="se.netlight.dimlight.dao.category.ImpossibleDatabaseImplementation">
+		<property name="name" value="impossible" />
+		<property name="display" value="Impossible" />
+		<property name="description" value="An implementation that should make SQL injection impossible, and also supresses error messages." />
+	
+		<property name="dao" ref="sanitizedDAO"/>
 	</bean>
 	
 	<bean id="daoCategory" class="se.netlight.dimlight.metaframework.MetaframeworkCategory">
@@ -54,6 +66,7 @@
 				<ref bean="stupidDatabaseImplementation"/>
 				<ref bean="mediumDatabaseImplementation"/>
 				<ref bean="cleverDatabaseImplementation"/>
+				<ref bean="impossibleDatabaseImplementation"/>
 			</list>
 		</property>
 	</bean>

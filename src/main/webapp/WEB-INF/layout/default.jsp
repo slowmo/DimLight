@@ -4,7 +4,7 @@
    <html>
 		<head>
 			<title>${pageTitle}</title>
-			<link rel="stylesheet" href="/resources/dimlight.css" type="text/css"/>
+			<link rel="stylesheet" href="../resources/dimlight.css" type="text/css"/>
 			<c:set var="user"><% session.getAttribute("user"); %></c:set>
 		</head>
 		<body>

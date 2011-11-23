@@ -11,12 +11,12 @@ import se.netlight.dimlight.metaframework.mvc.beans.MetaFrameworkBean;
 import se.netlight.dimlight.metaframework.session.DimlightMetaframeworkSessionManager;
 
 @Controller
-@RequestMapping("/dimlight/meta")
+@RequestMapping("/dimlight")
 public class MetaframeworkController extends AbstractDimlightController {
 	public MetaframeworkController() {
 	}
 	
-	@RequestMapping("/index.do")
+	@RequestMapping("/metaframework.do")
 	public ModelAndView index() {
 		return new ModelAndView("metaframework", "data", new MetaFrameworkBean());
 	}

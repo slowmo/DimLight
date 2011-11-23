@@ -15,6 +15,7 @@ import se.netlight.dimlight.dao.DAOException;
 import se.netlight.dimlight.dao.IDimlightDAO;
 import se.netlight.dimlight.dao.ProvidedInteger;
 import se.netlight.dimlight.model.IndexViewBean;
+import se.netlight.dimlight.objects.Message;
 import se.netlight.dimlight.objects.Statement;
 import se.netlight.dimlight.objects.User;
 
@@ -117,6 +118,31 @@ public class DimlightMainController extends AbstractDimlightController {
 			throw new RuntimeException("Failed to save user: ", e);
 		}		
 		return buildUserModel(session);
+	}
+	
+	@RequestMapping("/user.do")
+	public ModelAndView user(@RequestParam("id") String id, HttpSession session) throws DAOException {
+		ModelAndView mav = new ModelAndView("user");
+		User user = getDao().getUserForId(wrapNumericParameter(id));
+		if (user == null)
+			throw new RuntimeException("Unknown user for id " + id);
+		mav.addObject("pageuser", user);
+		List<Statement> statementsForUser = getDao().getStatementsForUser(user);
+		mav.addObject("statements", statementsForUser);
+		return mav;
+	}
+	
+	@RequestMapping("/addmessage.do")
+	public ModelAndView addMessage(@RequestParam("recipient") String id, @RequestParam("message") String message, HttpSession session) throws DAOException {
+		User sender = loadUser(session, true); // make sure user is logged in 
+		User recipient = getDao().getUserForId(wrapNumericParameter(id));
+		if (recipient == null)
+			throw new RuntimeException("Unknown user for id " + id);
+	
+		Message m = new Message("Message from " + sender.getName() + ": " + message, recipient);
+		getDao().saveMessage(m);
+		
+		return user(id, session);
 	}
 	
 	@ExceptionHandler(Exception.class)

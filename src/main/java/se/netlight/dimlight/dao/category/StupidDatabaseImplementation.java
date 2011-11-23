@@ -13,4 +13,9 @@ public class StupidDatabaseImplementation extends AbstractDatabaseCategoryImplem
 	public boolean shouldSuppressException(Exception ex) {
 		return false;
 	}
+
+	@Override
+	public String sanitizeString(String str) {
+		return str;
+	}
 }

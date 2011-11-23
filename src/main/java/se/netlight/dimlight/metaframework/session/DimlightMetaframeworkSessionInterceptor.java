@@ -8,7 +8,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 public class DimlightMetaframeworkSessionInterceptor implements HandlerInterceptor {
-	private static final String COOKIE_NAME = "DIMLIGHT_METAFRAMEWORK_TOKEN:DO:NOT:HACK";
+	private static final String COOKIE_NAME = "DIMLIGHTMETAFRAMEWORKTOKEN";
 
 	public void afterCompletion(HttpServletRequest arg0,
 			HttpServletResponse arg1, Object arg2, Exception arg3)
@@ -33,7 +33,9 @@ public class DimlightMetaframeworkSessionInterceptor implements HandlerIntercept
 			DimlightMetaframeworkSessionManager.getInstance().announceSession(token);
 		} else {
 			token = DimlightMetaframeworkSessionManager.getInstance().announceNewSession();
-			arg1.addCookie(new Cookie(COOKIE_NAME, token));
+			Cookie c = new Cookie(COOKIE_NAME, token);
+			c.setPath("/");
+			arg1.addCookie(c);
 		}			
 		return true;
 	}

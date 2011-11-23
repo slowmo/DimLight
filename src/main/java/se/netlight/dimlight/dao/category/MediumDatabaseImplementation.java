@@ -3,7 +3,7 @@ package se.netlight.dimlight.dao.category;
 import se.netlight.dimlight.dao.ProvidedInteger;
 import se.netlight.dimlight.dao.WrappedProvidedInteger;
 
-public class MediumDatabaseImplementation extends AbstractDatabaseCategoryImplementation {
+public class MediumDatabaseImplementation extends AbstractSanitizingDatabaseCategoryImplementation {
 	@Override
 	public ProvidedInteger buildProvidedInteger(String amount) {
 		return new WrappedProvidedInteger(amount);
@@ -13,5 +13,4 @@ public class MediumDatabaseImplementation extends AbstractDatabaseCategoryImplem
 	public boolean shouldSuppressException(Exception ex) {
 		return false;
 	}
-
 }

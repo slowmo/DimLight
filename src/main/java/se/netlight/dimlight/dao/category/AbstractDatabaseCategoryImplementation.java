@@ -18,4 +18,6 @@ public abstract class AbstractDatabaseCategoryImplementation extends AbstractMet
 	public abstract ProvidedInteger buildProvidedInteger(String amount);
 
 	public abstract boolean shouldSuppressException(Exception ex);
+
+	public abstract String sanitizeString(String str);
 }
