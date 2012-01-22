@@ -121,7 +121,7 @@ public class DimlightMainController extends AbstractDimlightController {
 	}
 	
 	@RequestMapping("/user.do")
-	public ModelAndView user(@RequestParam("id") String id, HttpSession session) throws DAOException {
+	public ModelAndView userById(@RequestParam("id") String id, HttpSession session) throws DAOException {
 		ModelAndView mav = new ModelAndView("user");
 		User user = getDao().getUserForId(wrapNumericParameter(id));
 		if (user == null)
@@ -131,7 +131,22 @@ public class DimlightMainController extends AbstractDimlightController {
 		mav.addObject("statements", statementsForUser);
 		return mav;
 	}
-	
+
+	@RequestMapping("/userByName.do")
+	public ModelAndView userByName(@RequestParam("name") String name, HttpSession session) throws DAOException {
+		User user = getDao().getUserForName(name);
+		if (user == null) {
+			ModelAndView mav = new ModelAndView("usernotfound");
+			mav.addObject("username", name);
+			return mav;
+		}
+		
+		ModelAndView mav = new ModelAndView("user");
+		mav.addObject("pageuser", user);
+		List<Statement> statementsForUser = getDao().getStatementsForUser(user);
+		mav.addObject("statements", statementsForUser);
+		return mav;
+	}
 	@RequestMapping("/addmessage.do")
 	public ModelAndView addMessage(@RequestParam("recipient") String id, @RequestParam("message") String message, HttpSession session) throws DAOException {
 		User sender = loadUser(session, true); // make sure user is logged in 
@@ -142,7 +157,7 @@ public class DimlightMainController extends AbstractDimlightController {
 		Message m = new Message("Message from " + sender.getName() + ": " + message, recipient);
 		getDao().saveMessage(m);
 		
-		return user(id, session);
+		return userById(id, session);
 	}
 	
 	@ExceptionHandler(Exception.class)

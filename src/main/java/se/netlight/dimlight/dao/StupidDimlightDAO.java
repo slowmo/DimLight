@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.sql.Types;
 import java.util.List;
 
+import javax.servlet.jsp.tagext.TryCatchFinally;
 import javax.sql.DataSource;
 
 import org.springframework.asm.Type;
@@ -154,7 +155,11 @@ public class StupidDimlightDAO extends JDBCDimlightDAO {
 	}
 
 	public Statement getStatementForId(ProvidedInteger id) throws DAOException {
-		return template.queryForObject("SELECT * FROM Statement WHERE id=" + id, statementRowMapper);
+		try {
+			return template.queryForObject("SELECT * FROM Statement WHERE id=" + id, statementRowMapper);			
+		} catch (EmptyResultDataAccessException e) {
+			return null;
+		}
 	}
 
 	public void saveStatement(Statement statement) throws DAOException {
